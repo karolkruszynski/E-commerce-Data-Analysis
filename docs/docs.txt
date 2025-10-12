@@ -1,0 +1,4 @@
+1. Tabele zostały stworzonę ręcznie w pgadmin4
+2. Kolumny zostały dodane ręcznie wraz z odpowiednimi typami danych
+3. Relacje pomiędzy tabelami zostały utworzone za pomocą komend w pliku /sql/01_konfiguracja_bazy_danych/stworzenie_relacji_między_tabelami.sql
+4. Dane zostały wgrane do odpowiednich tabel poprzez pliki CSV znajdujące się w folderze /data 
