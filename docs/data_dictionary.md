@@ -1,3 +1,10 @@
+# Znalezione problemy
+
+## ZAMÓWIENIA
+- **Problem**: Data dostarczenia do klienta jest wcześneijsza niż data dostarczenia przez kuriera.
+- **Potencjalne źródło problemu**: Źle skonfigurowany system powiadomień od firmy kurierskiej.
+- **Potencjalne konsekwencje**: Złe dane wpływają na KPI i ocenę czasu dostawy do klienta (wydłużają ją sztucznie lub przyśpieszają)
+
 # Opis tabel i kolumn
 
 ## category_name
@@ -70,11 +77,4 @@
 - **seller_city**: text
 - **seller_state**: text
 
-
-# Znalezione problemy
-
-## ZAMÓWIENIA
-- **Problem**: Data dostarczenia do klienta jest wcześneijsza niż data dostarczenia przez kuriera.
-- **Potencjalne źródło problemu**: Źle skonfigurowany system powiadomień od firmy kurierskiej.
-- **Potencjalne konsekwencje**: Złe dane wpływają na KPI i ocenę czasu dostawy do klienta (wydłużają ją sztucznie lub przyśpieszają)
 
