@@ -38,11 +38,42 @@ ORDER BY
 	percent DESC;
 
 
+-- Korelacja kosztu wysyłki vs wartość zamówienia
+SELECT
+	CORR(price, freight_value) as correlation
+FROM
+	order_items;
+-- Add. Korelacja jest pozytywna lecz nie jest mocna wynosi: ~0.41 (skala -1 do 1)
+
+-- Korelacja wartość zamówienia vs kosztu wysyłki według regionu klienta
+SELECT
+	c.customer_state,
+	CORR(oi.price, oi.freight_value) as correlation
+FROM
+	order_items oi
+INNER JOIN
+	orders o ON oi.order_id = o.order_id
+INNER JOIN
+	customers c ON o.customer_id = c.customer_id
+GROUP BY
+	c.customer_state
+ORDER BY
+	correlation DESC;
 
 
-
-
-
+-- Korelacja wartość zamówienia vs kosztu wysyłki według sprzedawcy
+SELECT
+	seller_id,
+	CASE
+		WHEN CORR(price, freight_value) IS NULL THEN 0
+		ELSE CORR(price, freight_value)
+	END as correlation
+FROM
+	order_items
+GROUP BY
+	seller_id
+ORDER BY
+	correlation DESC;
 
 
 
