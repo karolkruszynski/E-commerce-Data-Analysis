@@ -46,7 +46,8 @@ ORDER BY
 	count_of_reviews DESC;
 	
 
--- Czynniki wpływające na satysfakcję: czas dostawy w dniach, koszt wysyłki, cena produktu
+-- Czynniki wpływające na satysfakcję: czas dostawy w dniach, koszt wysyłki, cena produktu, ilość zdjęć, długość opisu produktu
+WITH delivery_in_days as
 (
 	SELECT
 		order_id,
@@ -59,7 +60,9 @@ ORDER BY
 SELECT
 	CORR(dd.delay, orv.review_score) as corr_delay_review_score,
 	CORR(oi.freight_value,orv.review_score) as corr_freight_review_score,
-	CORR(oi.price,orv.review_score) as corr_price_review_score
+	CORR(oi.price,orv.review_score) as corr_price_review_score,
+	CORR(p.product_photos_qty, orv.review_score) as corr_photos_qty_review_score,
+	CORR(p.product_description_lenght, orv.review_score) as corr_product_desc_length_review_score
 FROM
 	delivery_in_days dd
 INNER JOIN
