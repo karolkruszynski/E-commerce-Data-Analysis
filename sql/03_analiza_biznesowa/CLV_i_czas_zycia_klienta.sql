@@ -7,7 +7,11 @@
 SELECT
 	c.customer_unique_id,
 	ROUND(SUM(oi.price+oi.freight_value)) as clv_value,
-	COUNT(DISTINCT(o.order_id)) as orders_count
+	COUNT(DISTINCT(o.order_id)) as orders_count,
+	CASE
+		WHEN c.customer_state IN ('RJ','SP','MG') THEN 1
+		ELSE 0
+	END as is_client_from_top3_state
 FROM
 	order_items oi
 INNER JOIN
@@ -15,10 +19,44 @@ INNER JOIN
 INNER JOIN
 	customers c ON o.customer_id = c.customer_id
 GROUP BY
-	c.customer_unique_id
+	c.customer_unique_id,is_client_from_top3_state
 ORDER BY
 	clv_value DESC
-LIMIT 10;
+
+
+
+-- Klienci którzy generują największą wartość sprzedaży według top3 regionów 
+WITH top3_state as
+(
+SELECT
+	c.customer_unique_id,
+	ROUND(SUM(oi.price+oi.freight_value)) as clv_value,
+	COUNT(DISTINCT(o.order_id)) as orders_count,
+	CASE
+		WHEN c.customer_state IN ('RJ','SP','MG') THEN 1
+		ELSE 0
+	END as is_client_from_top3_state
+FROM
+	order_items oi
+INNER JOIN
+	orders o ON oi.order_id = o.order_id
+INNER JOIN
+	customers c ON o.customer_id = c.customer_id
+GROUP BY
+	c.customer_unique_id,is_client_from_top3_state
+ORDER BY
+	clv_value DESC
+LIMIT 100
+)
+SELECT
+	t3s.is_client_from_top3_state,
+	SUM(clv_value) as clv_sum_value
+FROM
+	top3_state t3s
+GROUP BY
+	t3s.is_client_from_top3_state
+
+
 
 -- Średnia wartość zamówienia dla klienta
 SELECT
